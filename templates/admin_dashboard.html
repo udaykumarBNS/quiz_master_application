@@ -1,0 +1,68 @@
+{% extends "admin_layout.html" %}
+{% block content %}
+    <div class="container">
+        <h3 class="center">Subjects</h3>
+        {% if search_text %}
+            <h4 class="center">Search Results for "{{ search_text }}"</h4>
+        {% endif %}
+        {% if subjects %}
+            <div class="row">
+                {% for subject in subjects %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ subject.name }}</h5>
+                                <p class="card-text">{{ subject.description }}</p>
+                                <a href="/edit_subject/{{subject.id}}/{{name}}" class="btn btn-primary">Edit</a>
+                                <a href="/delete_subject/{{subject.id}}/{{name}}" class="btn btn-danger">Delete</a>
+                                <a href="/add_chapter/{{subject.id}}/{{name}}" class="btn btn-secondary">Add Chapter</a>
+                                {% if subject.chapters %}
+                                    <hr>
+                                    <h6>Chapters:</h6>
+                                    <ul>
+                                        {% for chapter in subject.chapters %}
+                                            <li>
+                                                {{ chapter.name }}
+                                                <a href="/edit_chapter/{{chapter.id}}/{{name}}" class="btn btn-sm btn-primary">Edit</a>
+                                                <a href="/delete_chapter/{{chapter.id}}/{{name}}" class="btn btn-sm btn-danger">Delete</a>
+                                                <a href="/add_quiz/{{chapter.id}}/{{name}}" class="btn btn-sm btn-secondary">Add Quiz</a>
+                                                {% if chapter.quizzes %}
+                                                    <ul>
+                                                        {% for quiz in chapter.quizzes %}
+                                                            <li>
+                                                                {{ quiz.name }}
+                                                                <a href="/edit_quiz/{{quiz.id}}/{{name}}" class="btn btn-sm btn-primary">Edit</a>
+                                                                <a href="/delete_quiz/{{quiz.id}}/{{name}}" class="btn btn-sm btn-danger">Delete</a>
+                                                                <a href="/add_question/{{quiz.id}}/{{name}}" class="btn btn-sm btn-secondary">Add Question</a>
+                                                                {% if quiz.questions %}
+                                                                    <ul>
+                                                                        {% for question in quiz.questions %}
+                                                                            <li>
+                                                                                {{ question.question_statement }}
+                                                                                <a href="/edit_question/{{question.id}}/{{name}}" class="btn btn-sm btn-primary">Edit</a>
+                                                                                <a href="/delete_question/{{question.id}}/{{name}}" class="btn btn-sm btn-danger">Delete</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                {% endif %}
+                                                            </li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h4 class="center">No subjects available. Add a subject to get started.</h4>
+        {% endif %}
+        <div class="center">
+            <a href="/add_subject/{{name}}" class="btn btn-success">+ Add Subject</a>
+        </div>
+    </div>
+{% endblock %}
